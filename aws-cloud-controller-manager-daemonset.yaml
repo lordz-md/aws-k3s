@@ -32,6 +32,7 @@ spec:
           args:
             - --v=2
             - --cloud-provider=aws
+            - --cluster-cidr=10.0.0.0/16
           resources:
             requests:
               cpu: 200m
