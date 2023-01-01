@@ -1,6 +1,7 @@
 #!/bin/bash
 
 yum update -y && yum upgrade -y
+yum install -y git-core
 
 local_ip=$(curl -s http://169.254.169.254/latest/meta-data/local-ipv4)
 provider_id="$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone)/$(curl -s http://169.254.169.254/latest/meta-data/instance-id)"
