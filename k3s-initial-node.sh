@@ -15,9 +15,11 @@ hostname $NEW_HOSTNAME
 sudo sed -i "s/$CUR_HOSTNAME/$NEW_HOSTNAME/g" /etc/hosts
 sudo sed -i "s/$CUR_HOSTNAME/$NEW_HOSTNAME/g" /etc/hostname
 
-curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v1.25.5+k3s1 K3S_TOKEN=PuT1nHu1l0R4SAParasha sh -s - --cluster-init --node-ip $local_ip --advertise-address $local_ip  --kubelet-arg="cloud-provider=external" --flannel-backend=none  --disable-cloud-controller --disable=servicelb --disable=traefik --write-kubeconfig-mode 644 --kubelet-arg="provider-id=aws:///$provider_id"
+curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v1.25.5+k3s1 K3S_TOKEN=PuT1nHu1l0R4SAParasha sh -s - --cluster-init --node-ip $local_ip --advertise-address $local_ip  --kubelet-arg="cloud-provider=external" --flannel-backend=none --disable-network-policy --cluster-cidr=192.168.0.0/16 --disable-cloud-controller --disable servicelb --disable traefik --write-kubeconfig-mode 644 --kubelet-arg="provider-id=aws:///$provider_id"
 
 kubectl apply -f https://github.com/aws/aws-node-termination-handler/releases/download/v1.18.2/all-resources.yaml
 kubectl apply -f https://raw.githubusercontent.com/lordz-md/aws-k3s/master/rbac.yaml
 kubectl apply -f https://raw.githubusercontent.com/lordz-md/aws-k3s/master/aws-cloud-controller-manager-daemonset.yaml
-kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.24.5/manifests/tigera-operator.yaml
+kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.24.5/manifests/custom-resources.yaml
+
