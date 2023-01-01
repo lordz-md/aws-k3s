@@ -4,7 +4,7 @@ yum update -y && yum upgrade -y
 yum install jq -y 
 
 aws_region=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document | jq .region -r)
-master_ip=$(aws ec2 describe-instances --filters "Name=tag:InitialNode,Values=1" --query 'Reservations[*].Instances[*].PrivateIpAddress' --output text --region "$aws_regio")
+master_ip=$(aws ec2 describe-instances --filters "Name=tag:InitialNode,Values=1" --query 'Reservations[*].Instances[*].PrivateIpAddress' --output text --region "$aws_region")
 local_ip=$(curl -s http://169.254.169.254/latest/meta-data/local-ipv4)
 provider_id="$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone)/$(curl -s http://169.254.169.254/latest/meta-data/instance-id)"
 instance_id="$(curl -s http://169.254.169.254/latest/meta-data/instance-id)"
