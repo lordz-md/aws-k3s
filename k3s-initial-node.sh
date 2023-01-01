@@ -24,3 +24,7 @@ kubectl apply -f https://raw.githubusercontent.com/lordz-md/aws-k3s/master/aws-c
 kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.24.5/manifests/tigera-operator.yaml
 kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.24.5/manifests/custom-resources.yaml
 
+echo "source <(kubectl completion bash)" >> ~/.bashrc
+echo "alias k=kubectl" >> ~/.bashrc
+echo "complete -o default -F __start_kubectl k" >> ~/.bashrc
+
