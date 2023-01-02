@@ -21,7 +21,7 @@ curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v1.24.9+k3s1 K3S_TOKEN=PuT1nH
 kubectl apply -f https://github.com/aws/aws-node-termination-handler/releases/download/v1.18.2/all-resources.yaml
 kubectl apply -f https://raw.githubusercontent.com/lordz-md/aws-k3s/master/rbac.yaml
 kubectl apply -f https://raw.githubusercontent.com/lordz-md/aws-k3s/master/aws-cloud-controller-manager-daemonset.yaml
-sleep 45
+sleep 15
 kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.24.5/manifests/tigera-operator.yaml
 kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.24.5/manifests/custom-resources.yaml
 
