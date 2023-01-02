@@ -25,7 +25,10 @@ sleep 15
 kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.24.5/manifests/tigera-operator.yaml
 kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.24.5/manifests/custom-resources.yaml
 
+sleep 5
 echo "source <(kubectl completion bash)" >> ~/.bashrc
 echo "alias k=kubectl" >> ~/.bashrc
 echo "complete -o default -F __start_kubectl k" >> ~/.bashrc
+sleep 5
+source ~/.bashrc
 
