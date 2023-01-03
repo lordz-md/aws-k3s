@@ -1,3 +1,5 @@
+######
+#Please adopt EC2 permissions accordingly https://raw.githubusercontent.com/kubernetes-sigs/aws-ebs-csi-driver/master/docs/example-iam-policy.json
 apiVersion: helm.cattle.io/v1
 kind: HelmChart
 metadata:
@@ -20,7 +22,3 @@ metadata:
   name: ebs-storageclass
 provisioner: ebs.csi.aws.com
 volumeBindingMode: WaitForFirstConsumer
-
-
-######
-#Please adopt permissions accordingly https://raw.githubusercontent.com/kubernetes-sigs/aws-ebs-csi-driver/master/docs/example-iam-policy.json
