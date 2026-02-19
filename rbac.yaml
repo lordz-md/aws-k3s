@@ -69,6 +69,15 @@ rules:
   - serviceaccounts
   verbs:
   - create
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - serviceaccounts/token
+  verbs:
+  - create
 - apiGroups:
   - ""
   resources:
