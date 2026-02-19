@@ -3,10 +3,13 @@
 yum update -y && yum upgrade -y
 yum install -y git-core jq
 
-local_ip=$(curl -s http://169.254.169.254/latest/meta-data/local-ipv4)
-provider_id="$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone)/$(curl -s http://169.254.169.254/latest/meta-data/instance-id)"
+IMDS_TOKEN=$(curl -s -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
+IMDS_HEADER="X-aws-ec2-metadata-token: $IMDS_TOKEN"
 
-instance_id=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
+local_ip=$(curl -s -H "$IMDS_HEADER" http://169.254.169.254/latest/meta-data/local-ipv4)
+provider_id="$(curl -s -H "$IMDS_HEADER" http://169.254.169.254/latest/meta-data/placement/availability-zone)/$(curl -s -H "$IMDS_HEADER" http://169.254.169.254/latest/meta-data/instance-id)"
+
+instance_id=$(curl -s -H "$IMDS_HEADER" http://169.254.169.254/latest/meta-data/instance-id)
 
 CUR_HOSTNAME=$(cat /etc/hostname)
 NEW_HOSTNAME=$instance_id
