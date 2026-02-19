@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 yum update -y && yum upgrade -y
 yum install git-core jq -y 
@@ -16,13 +17,13 @@ instance_id="$(curl -s -H "$IMDS_HEADER" http://169.254.169.254/latest/meta-data
 CUR_HOSTNAME=$(cat /etc/hostname)
 NEW_HOSTNAME=$instance_id
 
-hostnamectl set-hostname $NEW_HOSTNAME
-hostname $NEW_HOSTNAME
+hostnamectl set-hostname "$NEW_HOSTNAME"
+hostname "$NEW_HOSTNAME"
 
-sudo sed -i "s/$CUR_HOSTNAME/$NEW_HOSTNAME/g" /etc/hosts
-sudo sed -i "s/$CUR_HOSTNAME/$NEW_HOSTNAME/g" /etc/hostname
+sudo sed -i "s|$CUR_HOSTNAME|$NEW_HOSTNAME|g" /etc/hosts
+sudo sed -i "s|$CUR_HOSTNAME|$NEW_HOSTNAME|g" /etc/hostname
 
-curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v1.24.9+k3s1 K3S_TOKEN=Ex4mpL3T0k3N K3S_URL=https://"$master_ip":6443 sh -s - agent --node-ip $local_ip --kubelet-arg="provider-id=aws:///$provider_id"
+curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v1.24.9+k3s1 K3S_TOKEN=Ex4mpL3T0k3N K3S_URL=https://"$master_ip":6443 sh -s - agent --node-ip "$local_ip" --kubelet-arg="provider-id=aws:///$provider_id"
 
 sleep 5
 echo "source <(kubectl completion bash)" >> ~/.bashrc
