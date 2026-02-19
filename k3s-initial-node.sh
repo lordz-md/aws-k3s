@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 yum update -y && yum upgrade -y
 yum install -y git-core jq
@@ -14,12 +15,12 @@ instance_id=$(curl -s -H "$IMDS_HEADER" http://169.254.169.254/latest/meta-data/
 CUR_HOSTNAME=$(cat /etc/hostname)
 NEW_HOSTNAME=$instance_id
 
-hostnamectl set-hostname $NEW_HOSTNAME
-hostname $NEW_HOSTNAME
-sudo sed -i "s/$CUR_HOSTNAME/$NEW_HOSTNAME/g" /etc/hosts
-sudo sed -i "s/$CUR_HOSTNAME/$NEW_HOSTNAME/g" /etc/hostname
+hostnamectl set-hostname "$NEW_HOSTNAME"
+hostname "$NEW_HOSTNAME"
+sudo sed -i "s|$CUR_HOSTNAME|$NEW_HOSTNAME|g" /etc/hosts
+sudo sed -i "s|$CUR_HOSTNAME|$NEW_HOSTNAME|g" /etc/hostname
 
-curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v1.24.9+k3s1 K3S_TOKEN=Ex4mpL3T0k3N sh -s - --cluster-init --node-ip $local_ip --advertise-address $local_ip --kubelet-arg="cloud-provider=external" --flannel-backend=none --disable-network-policy --cluster-cidr=192.168.0.0/16 --disable-cloud-controller --disable servicelb --disable traefik --write-kubeconfig-mode 644 --kubelet-arg="provider-id=aws:///$provider_id"
+curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v1.24.9+k3s1 K3S_TOKEN=Ex4mpL3T0k3N sh -s - --cluster-init --node-ip "$local_ip" --advertise-address "$local_ip" --kubelet-arg="cloud-provider=external" --flannel-backend=none --disable-network-policy --cluster-cidr=192.168.0.0/16 --disable-cloud-controller --disable servicelb --disable traefik --write-kubeconfig-mode 600 --kubelet-arg="provider-id=aws:///$provider_id"
 
 kubectl apply -f https://github.com/aws/aws-node-termination-handler/releases/download/v1.18.2/all-resources.yaml
 kubectl apply -f https://raw.githubusercontent.com/lordz-md/aws-k3s/master/rbac.yaml
