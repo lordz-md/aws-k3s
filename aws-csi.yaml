@@ -6,7 +6,7 @@ metadata:
   name: aws-ebs-csi-driver
   namespace: kube-system
 spec:
-  chart: https://github.com/kubernetes-sigs/aws-ebs-csi-driver/releases/download/helm-chart-aws-ebs-csi-driver-2.14.1/aws-ebs-csi-driver-2.14.1.tgz
+  chart: https://github.com/kubernetes-sigs/aws-ebs-csi-driver/releases/download/helm-chart-aws-ebs-csi-driver-2.55.1/aws-ebs-csi-driver-2.55.1.tgz
   targetNamespace: kube-system
   valuesContent: |-
     enableVolumeScheduling: true
